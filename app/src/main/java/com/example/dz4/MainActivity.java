@@ -1,5 +1,6 @@
 package com.example.dz4;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,10 +16,12 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private List<TitleModel> list;
+    private ArrayList<TitleModel> list;
     private MainAdapter adapter;
     private Button button;
     private EditText editText;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +47,20 @@ public class MainActivity extends AppCompatActivity {
                 String text  = editText.getText().toString();
                 list.add(new TitleModel(text));
                 adapter.notifyDataSetChanged();
+                editText.setText("");
             }
         });
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList("kasa",list);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        list.addAll(savedInstanceState.getParcelableArrayList("kasa"));
     }
 }
